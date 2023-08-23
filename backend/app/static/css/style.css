@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+    --cerulean: #0081a7ff;
+    --verdigris: #00afb9ff;
+    --light-yellow: #fdfcdcff;
+    --light-orange: #fed9b7ff;
+    --bittersweet: #f07167ff;
+    --red-pantone: #e63946ff;
+    --honeydew: #f1faeeff;
+    --non-photo-blue: #a8dadcff;
+    --berkeley-blue: #1d3557ff;
+    --shadow-green: #3EA535ff;
+}
+html {
+    box-sizing: border-box;
+    width: 100vw;
+    overflow-x: clip;
+}
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+body {
+    font-family: 'Quicksand', 'sans-serif';
+    font-weight: 500;
+}
+
+#login-container, #regis-container {
+    width: 75%;
+    margin: 30vh auto;
+}
+
+.title {
+    font-family: 'Poppins', 'sans-serif';
+}
+
+.img-container {
+    display: none;
+}
+
+.input-field {
+    background-color: inherit;
+    border-width:  0 0 0.2rem 0;
+    border-color: var(--cerulean);
+    border-radius: 0;
+    font-weight: 500;
+}
+
+.input-field:focus {
+    border-color: var(--cerulean);
+}
+
+.button-form {
+    background-color: var(--cerulean);
+    border: none;
+    border-radius: 10rem;
+}
+
+.button-form:hover {
+    background-color: var(--cerulean);
+}
+
+.warning {
+    color: var(--bittersweet);
+}
+
+.todo-item {
+    background-color: var(--honeydew);
+    position: relative;
+}
+
+.todo-project {
+    background-color: var(--verdigris);
+    width: fit-content;
+    font-size: 0.7rem;
+    color: var(--light-yellow);
+    position: absolute;
+    right: 0.5rem;
+    top: 0.3rem;
+    border-radius: 0.5rem;
+}
+
+.todo-title {
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Poppins', 'sans-serif';
+}
+
+.todo-desc {
+    font-size: 0.8rem;
+}
+
+.todo-date {
+    font-size: 0.8rem;
+    color: var(--cerulean)
+}
+
+.todo-btns {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+.edit-btn, .edit-btn:hover, .edit-btn:not(:disabled):not(:disabled):active {
+    background-color: var(--shadow-green);
+    border-color: var(--shadow-green);
+}
+
+.delete-btn, .delete-btn:hover, .delete-btn:not(:disabled):not(:disabled):active {
+    background-color: var(--red-pantone);
+    border-color: var(--red-pantone);
+}
+
+.finish-undo-btn, .finish-undo-btn:hover, .finish-undo-btn:not(:disabled):not(:disabled):active {
+    background-color: var(--berkeley-blue);
+    border-color: var(--berkeley-blue);
+}
+
+.nav-style {
+    background-color: var(--cerulean);
+}
+
+.nav-font {
+    color: white;
+}
+
+#add-item {
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+    border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.2rem;
+    background-color: var(--cerulean);
+    border-color: var(--cerulean);
+    z-index: 3;
+}
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+footer {
+    background-color: var(--berkeley-blue);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    line-height: 1.5;
+    position: absolute;
+    bottom: 0;
+    height: 2.5rem;
+    left: 0;
+    right: 0;
+    margin-top: 5rem;
+}
+
+@media screen and (min-width: 768px){
+    #login-container, #regis-container {
+        width: 80%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform:  translate(-50%, -50%);
+        margin: 0;
+        align-items: center;
+    }
+
+    .img-container {
+        display: block;
+        width: 100%;
+    }
+
+    .img-container > img {
+        width: 100%;
+    }
+
+    .todo-project {
+        font-size: 0.8rem;
+    }
+
+    .todo-date {
+        font-size: 0.9rem;
+    }
+
+    .todo-title {
+        font-size: 1.1rem;
+    }
+    
+    .todo-desc {
+        font-size: 0.9rem;
+    }
+
+    #add-item {
+        bottom: 3rem;
+        width: 3.75rem;
+        height: 3.75rem;
+    }
+}

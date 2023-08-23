@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "user_id": 1,
+      "username": "yuko14",
+      "email": "yuko@gmail.com",
+      "password": 123456,
+      "name": "yuko"
+    },
+    {
+      "user_id": 2,
+      "username": "mariko14",
+      "email": "mariko@gmail.com",
+      "password": 123456,
+      "name": "mariko"
+    },
+    {
+      "user_id": 3,
+      "username": "dani14",
+      "email": "dani@gmail.com",
+      "password": 123456,
+      "name": "dani"
+    },
+    {
+      "user_id": 4,
+      "username": "aldi14",
+      "email": "aldi@gmail.com",
+      "password": 123456,
+      "name": "aldi"
+    },
+    {
+      "user_id": 5,
+      "username": "yuki14",
+      "email": "yuki@gmail.com",
+      "password": 123456,
+      "name": "rika"
+    }
+  ]
+}

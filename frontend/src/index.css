@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Quicksand:wght@400;500;600&display=swap');
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+html {
+    box-sizing: border-box;
+    width: 100vw;
+    overflow-x: clip;
+}
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+body {
+    font-family: 'Quicksand', 'sans-serif';
+    font-weight: 500;
+}
+
+#root {
+    height: 100vh;
+}
+
+#login-container, #regis-container {
+    width: 75%;
+    margin: 30vh auto;
+}
+
+.title {
+    font-family: 'Poppins', 'sans-serif';
+}
+
+.img-container {
+    display: none;
+}
+
+
+@media screen and (min-width: 768px){
+    #login-container, #regis-container {
+        width: 80%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform:  translate(-50%, -50%);
+        margin: 0;
+        align-items: center;
+    }
+
+    .img-container {
+        display: block;
+        width: 100%;
+    }
+
+    .img-container > img {
+        width: 100%;
+    }
+
+}
