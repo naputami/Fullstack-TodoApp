@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-const ConfirmationAlert = () => {
+const DeleteProjectConfirmation = ({item, handleDelete}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleConfirm = () => {
-    console.log('Confirmed!');
+    handleDelete(item)
     setIsOpen(false);
   };
 
@@ -40,4 +40,4 @@ const ConfirmationAlert = () => {
   );
 };
 
-export default ConfirmationAlert;
+export default DeleteProjectConfirmation;

@@ -38,11 +38,9 @@ def create_project():
 @projectBp.route('', strict_slashes=False)
 @jwt_required(locations=["headers"])
 def get_projects():
-    limit = request.args.get('limit', 10)
-    if type(limit) is not int:
-        return jsonify({'message': 'invalid parameter'}), 400
+    current_user = get_jwt_identity()
     
-    projects = db.session.execute(db.select(Projects).limit(limit)).scalars()
+    projects =db.session.query(Projects).filter(Projects.user_id == current_user)
 
     result = [project.serialize() for project in projects]
 
@@ -98,7 +96,7 @@ def update_project(project_id):
     
     project.name = data.get("name")
     project.description = data.get("description")
-    project.user_id = data.get("user_id")
+    project.user_id = current_user
 
     db.session.commit()
 

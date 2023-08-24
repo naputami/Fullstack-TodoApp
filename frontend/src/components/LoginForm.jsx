@@ -1,24 +1,48 @@
+/* eslint-disable react/prop-types */
+import { useState } from "react"
 import img from "../assets/checklist-88.png"
 import { Link } from "react-router-dom"
-const LoginForm = () => {
+import Notification from "./Notification"
+
+const LoginForm = ({handleLogin, success, message}) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const loginEvent = event => {
+        event.preventDefault()
+        handleLogin({
+            "email": email,
+            "password": password
+        })
+
+        if(success){
+            setEmail('')
+            setPassword('')
+        }
+
+    }
+
     return(
     <>
+        {success !== null && (
+                <Notification success={success} message={message} />
+            )}
         <div id='login-container'>
             <div className='img-container'>
                 <img src={img} />
             </div>
             <div className='login-form w-full'>
             <h1 className="text-2xl md:text-3xl text-center mb-4 title">PacToDo Login</h1>
-            <form className="w-full">
+            <form className="w-full" onSubmit={loginEvent}>
                 <div className="form-control w-full">
                     <label className="label">
                         <span className="label-text md:text-lg xl:text-xl">E-mail</span>
                     </label>
-                    <input type="text" placeholder="example@gmail.com" className="input input-bordered" />
+                    <input type="text" placeholder="example@gmail.com" className="input input-bordered" value={email} onChange={({target}) => setEmail(target.value)} />
                     <label className="label">
                         <span className="label-text md:text-lg xl:text-xl">Password</span>
                     </label>
-                    <input type="password" placeholder="Input password here" className="input input-bordered" />
+                    <input type="password" placeholder="Input password here" className="input input-bordered" value={password} onChange={({target}) => setPassword(target.value)} />
                     <button type="submit" className="btn btn-primary mt-4 w-full">Login</button>
                 </div>
             </form>

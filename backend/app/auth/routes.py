@@ -66,11 +66,11 @@ def login():
     }), 200
 
 @authBp.route("/refresh", methods = ['POST'], strict_slashes = False)
-@jwt_required(refresh= True)
+@jwt_required(refresh=True)
 def refresh():
     current_user = get_jwt_identity()
     access_token = {
-        'access_token': create_access_token(identity=current_user)
+        'refresh_token': create_refresh_token(identity=current_user)
     }
     return jsonify(access_token), 200
 

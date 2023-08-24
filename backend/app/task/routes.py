@@ -12,12 +12,9 @@ from app.models.project import Projects
 @taskBp.route('', strict_slashes=False)
 @jwt_required(locations=["headers"])
 def get_tasks():
-    limit = request.args.get('limit', 10)
-    if type(limit) is not int:
-        return jsonify({'message': 'invalid parameter'}), 400
+    current_user = get_jwt_identity()
     
-    tasks = db.session.execute(db.select(Tasks).limit(limit)).scalars()
-
+    tasks =  db.session.query(Tasks).filter(Tasks.user_id == current_user)
     result = [task.serialize() for task in tasks]
 
     response = jsonify({

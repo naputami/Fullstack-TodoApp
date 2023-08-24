@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import DeleteConfirmation from './DeleteConfirmation'
+import DeleteConfirmation from './DeleteProjectConfirmation'
 
 const Todo = ({task, setModalTitle}) => {
     const handleSubmit = (event) => {
