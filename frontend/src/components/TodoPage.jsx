@@ -7,7 +7,7 @@ import TaskModalForm from './TaskModalForm'
 import Clock from './Clock'
 
 
-const TodoPage = ({handleLogout, tasks, projects, handleAddTask}) => {
+const TodoPage = ({handleLogout, tasks, projects, handleAddTask, handleDeleteTask, handleUpdateTask}) => {
    const [displayTask, setDisplayTask] = useState(tasks)
    const [currentProject, setCurrentProject] = useState('All')
    const [modalTitle, setModalTitle] = useState("")
@@ -60,7 +60,7 @@ const TodoPage = ({handleLogout, tasks, projects, handleAddTask}) => {
             <ButtonFilter setCurrentProject={setCurrentProject} projectItems={projects} />
             {displayTask.length === 0 ? <p className='text-2xl text-center my-3'>There is no task to be displayed</p> :
                 <div className="container p-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {displayTask.map(task => <Todo task={task} key={task.id} setModalTitle={setModalTitle}/>)}
+                {displayTask.map(task => <Todo task={task} key={task.id} setModalTitle={setModalTitle} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask}/>)}
                 </div>
             }
             <footer className="footer footer-center p-4 bg-base-300 text-base-content mt-auto">

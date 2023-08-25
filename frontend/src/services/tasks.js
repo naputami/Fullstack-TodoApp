@@ -22,4 +22,14 @@ const postTask = async taskObj => {
     return response.data
 }
 
-export default {getAll, postTask, setToken}
+const deleteTask = async taskObj => {
+    const response = await axios.delete(`${baseUrl}/${taskObj.id}`, config)
+    return response.data
+}
+
+const putTask = async taskObj => {
+    const response = await axios.put(`${baseUrl}/${taskObj.id}`, taskObj, config)
+    return response.data
+}
+
+export default {getAll, postTask, deleteTask, putTask, setToken}

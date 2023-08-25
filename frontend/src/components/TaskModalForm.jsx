@@ -4,7 +4,7 @@ const TaskModalForm = ({action, projects, handleAddTask}) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [dueDate, setDueDate] = useState('')
-    const [selectedProject, setSelectedProject] = useState('');
+    const [selectedProject, setSelectedProject] = useState('DEFAULT');
 
     const modalTaskEvent = event => {
         event.preventDefault()
@@ -41,7 +41,7 @@ const TaskModalForm = ({action, projects, handleAddTask}) => {
                         <label className="label">
                             <span className="label-text">Project</span>
                         </label>
-                        <select className="select select-bordered" defaultValue="DEFAULT" value={selectedProject} onChange={({target}) => setSelectedProject(target.value)}>
+                        <select className="select select-bordered" value={selectedProject} onChange={({target}) => setSelectedProject(target.value)}>
                             {projects.length === 0 ? (<option value="DEFAULT">Add a project first!</option>) : (
                                 <>
                                     <option value="DEFAULT">Pick one</option>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const DeleteProjectConfirmation = ({item, handleDelete}) => {
+const DeleteConfirmation = ({item, handleDelete}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleConfirm = () => {
@@ -40,4 +40,4 @@ const DeleteProjectConfirmation = ({item, handleDelete}) => {
   );
 };
 
-export default DeleteProjectConfirmation;
+export default DeleteConfirmation;

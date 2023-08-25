@@ -125,7 +125,27 @@ function App() {
     try {
       const newTask = await taskService.postTask(taskObj)
       setTask(tasks.concat(newTask.data))
-      console.log('this is tasks after post event', tasks)
+    }catch(error){
+      alert("something error, check console")
+      console.log(error)
+    }
+  }
+
+  const handleDeleteTask = async taskObj => {
+    try{
+      const deleteTask = await taskService.deleteTask(taskObj)
+      setTask(tasks.filter(task => task.id !== taskObj.id))
+    }catch(error){
+      alert("something error, check console")
+      console.log(error)
+    }
+  }
+
+  const handleUpdateTask = async taskObj => {
+    try{
+      const updateTask = await taskService.putTask(taskObj)
+      console.log(updateTask)
+      setTask(tasks.map(task => task.id !== taskObj.id ? task : updateTask.data))
     }catch(error){
       alert("something error, check console")
       console.log(error)
@@ -142,7 +162,7 @@ function App() {
           <Route path='/register' element={<RegistrationForm handleRegis={handleRegis} message={notifMessage} success={success}/>}></Route>
           <Route path='/login' element={<LoginForm handleLogin={handleLogin} message={notifMessage} success={success} />}></Route>
           <Route path='/' element={<Home />}></Route>
-          <Route path='/tasks' element={<TodoPage handleLogout={handleLogout} tasks={tasks} projects={projects} handleAddTask={handleAddTask} />}></Route>
+          <Route path='/tasks' element={<TodoPage handleLogout={handleLogout} tasks={tasks} projects={projects} handleAddTask={handleAddTask} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask} />}></Route>
           <Route path='/projects' element={<ProjectPage 
                                             projects={projects} 
                                             handleAddProject={handleAddProject} 

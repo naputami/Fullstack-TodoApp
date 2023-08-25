@@ -99,7 +99,8 @@ def update_task(task_id):
     
     response = jsonify({
             "success": True,
-            "message" : f'task with id {task_id} has been changed'
+            "message" : f'task with id {task_id} has been changed',
+            "data" : task.serialize()
         })
 
     return response, 200
