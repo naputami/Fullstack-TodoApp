@@ -58,7 +58,7 @@ def create_task():
 
     return response, 200
 
-@taskBp.route('/<task_id>', methods=[ "PUT"], strict_slashes=False)
+@taskBp.route('/<task_id>', methods=["PUT"], strict_slashes=False)
 @jwt_required(locations=["headers"])
 def update_task(task_id):
     data = request.get_json()

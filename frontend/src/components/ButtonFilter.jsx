@@ -1,13 +1,31 @@
 /* eslint-disable react/prop-types */
-const ButtonFilter = ({filterProject, setDisplay, projectItems, allTask}) => {
+import { useState } from "react";
+const Button = ({ label, activeButton, setActiveButton, setCurrentProject }) => {
+    const isActive = activeButton === label;
+
+    const clickEventHandle = event => {
+        setActiveButton(event.target.value)
+        setCurrentProject(event.target.value)
+    }
+
+    return (
+      <button
+        onClick={clickEventHandle}
+        className={`btn btn-sm ${isActive ? 'btn-primary': 'btn-info'}`}
+        value={label}>
+        {label}
+      </button>
+    );
+};
+
+const ButtonFilter = ({setCurrentProject, projectItems}) => {
+    const [activeButton, setActiveButton] = useState('All')
+
     return(
         <>
             <div className="flex justify-center gap-2 my-3">
-                {projectItems.map(project => <button key={project.id} 
-                className="btn btn-sm btn-info"
-                onClick={() => filterProject(project.name)}>{project.name}</button>)}
-                <button className="btn btn-sm btn-primary"
-                onClick={() => setDisplay(allTask)}>All</button>
+                {projectItems.map(project => <Button key={project.id} label={project.name} setCurrentProject={setCurrentProject} activeButton={activeButton} setActiveButton={setActiveButton} />)}
+                <Button label='All' setCurrentProject={setCurrentProject} activeButton={activeButton} setActiveButton={setActiveButton} />
             </div>
         </>
     )

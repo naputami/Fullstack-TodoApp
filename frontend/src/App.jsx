@@ -19,13 +19,22 @@ function App() {
 
   const navigate = useNavigate()
 
+
   useEffect(() => {
     const fetchProjects = async () => {
       const projects = await projectService.getAll()
       setProjects(projects.data)
-      console.log("this is projects", projects)
     }
     fetchProjects()
+  }, [user])
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const tasks = await taskService.getAll()
+      setTask(tasks.data)
+      console.log('this is tasks', tasks)
+    }
+    fetchTasks()
   }, [user])
   
   useEffect(() => {
@@ -35,6 +44,7 @@ function App() {
       setUser(user)
       clientService.setToken(user["access token"])
       projectService.setToken(user["access token"])
+      taskService.setToken(user["access token"])
     }
   }, [])
 
@@ -56,6 +66,7 @@ function App() {
       const currentUser = await clientService.login(userObj)
       clientService.setToken(currentUser["access token"])
       projectService.setToken(currentUser["access token"])
+      taskService.setToken(currentUser["access token"])
       window.localStorage.setItem('loggedAppUser', JSON.stringify(currentUser))
       setUser(currentUser)
       navigate('/tasks')
@@ -71,6 +82,7 @@ function App() {
       const userLogout = await clientService.logout()
       window.localStorage.removeItem('loggedAppUser')
       setProjects([])
+      setTask([])
       navigate('/login')
       setSuccess(true)
       setNotifMessafe(userLogout.message)
@@ -82,7 +94,6 @@ function App() {
   const handleAddProject = async projectObj => {
     try{
       const newProject = await projectService.postProject(projectObj)
-      console.log("this is new project", newProject)
       setProjects(projects.concat(newProject.data))
     } catch (error){
       alert("something error, check console")
@@ -110,6 +121,17 @@ function App() {
     }
   }
 
+  const handleAddTask = async taskObj => {
+    try {
+      const newTask = await taskService.postTask(taskObj)
+      setTask(tasks.concat(newTask.data))
+      console.log('this is tasks after post event', tasks)
+    }catch(error){
+      alert("something error, check console")
+      console.log(error)
+    }
+  }
+
   setTimeout(() => {
     setSuccess(null);
   }, 5000);
@@ -120,7 +142,7 @@ function App() {
           <Route path='/register' element={<RegistrationForm handleRegis={handleRegis} message={notifMessage} success={success}/>}></Route>
           <Route path='/login' element={<LoginForm handleLogin={handleLogin} message={notifMessage} success={success} />}></Route>
           <Route path='/' element={<Home />}></Route>
-          <Route path='/tasks' element={<TodoPage handleLogout={handleLogout} />}></Route>
+          <Route path='/tasks' element={<TodoPage handleLogout={handleLogout} tasks={tasks} projects={projects} handleAddTask={handleAddTask} />}></Route>
           <Route path='/projects' element={<ProjectPage 
                                             projects={projects} 
                                             handleAddProject={handleAddProject} 

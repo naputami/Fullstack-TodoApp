@@ -2,8 +2,8 @@
 import { useState } from "react"
 
 const ProjectModalForm = ({action, handleAddProject, handleEditProject, currentItem}) => {
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
+    const [name, setName] = useState(currentItem ? currentItem.name : '')
+    const [description, setDescription] = useState(currentItem ? currentItem.description : '')
 
     const modalProjectEvent = event => {
         event.preventDefault()

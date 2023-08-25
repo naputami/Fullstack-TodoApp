@@ -12,8 +12,14 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
+    console.log(config)
     const response = await axios.get(baseUrl, config)
     return response.data
 }
 
-export default {getAll, setToken}
+const postTask = async taskObj => {
+    const response = await axios.post(baseUrl, taskObj, config)
+    return response.data
+}
+
+export default {getAll, postTask, setToken}

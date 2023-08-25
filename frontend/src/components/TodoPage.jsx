@@ -1,119 +1,33 @@
+/* eslint-disable react/prop-types */
 import Todo from './Todo'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import ButtonFilter from './ButtonFilter'
 import TaskModalForm from './TaskModalForm'
 import Clock from './Clock'
 
 
-const taskDummy = [
-    {
-        "id": 1,
-        "title": "Learning js",
-        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque vero exercitationem a soluta neque inventore quibusdam nobis perferendis praesentium labore?",
-        "project": {
-            "id:": 1,
-            "name": "coding"
-        },
-        "due_date": "2023-08-22",
-        "is_done": true,
-        "user": {
-            "id": 1,
-            "name": "Andi"
-        }
-    },
-    {
-        "id": 2,
-        "title": "Learning c++",
-        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque vero exercitationem a soluta neque inventore quibusdam nobis perferendis praesentium labore?",
-        "project": {
-            "id:": 1,
-            "name": "coding"
-        },
-        "due_date": "2023-08-22",
-        "is_done": false,
-        "user": {
-            "id": 1,
-            "name": "Andi"
-        }
-    },
-    {
-        "id": 3,
-        "title": "Learning react",
-        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque vero exercitationem a soluta neque inventore quibusdam nobis perferendis praesentium labore?",
-        "project": {
-            "id:": 1,
-            "name": "coding"
-        },
-        "due_date": "2023-08-22",
-        "is_done": false,
-        "user": {
-            "id": 1,
-            "name": "Andi"
-        }
-    },
-    {
-        "id": 4,
-        "title": "cleaning bedroom",
-        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque vero exercitationem a soluta neque inventore quibusdam nobis perferendis praesentium labore?",
-        "project": {
-            "id:": 2,
-            "name": "home"
-        },
-        "due_date": "2023-08-22",
-        "is_done": false,
-        "user": {
-            "id": 1,
-            "name": "Andi"
-        }
-    },
-    {
-        "id": 5,
-        "title": "Baking cake",
-        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque vero exercitationem a soluta neque inventore quibusdam nobis perferendis praesentium labore?",
-        "project": {
-            "id:": 2,
-            "name": "home"
-        },
-        "due_date": "2023-08-22",
-        "is_done": false,
-        "user": {
-            "id": 1,
-            "name": "Andi"
-        }
-    }
-]
-
-const emptyListDummy = []
-
-const projectDummy = [
-    {
-        "id": 1,
-        "name": "coding",
-        "description": "lorem ipsum dolor sir amet"
-    },
-    {
-        "id": 2,
-        "name": "home",
-        "description": "lorem ipsum dolor sir amet"
-    }
-]
-
-const TodoPage = ({handleLogout}) => {
-   const [displayTask, setDisplayTask] = useState(emptyListDummy)
+const TodoPage = ({handleLogout, tasks, projects, handleAddTask}) => {
+   const [displayTask, setDisplayTask] = useState(tasks)
+   const [currentProject, setCurrentProject] = useState('All')
    const [modalTitle, setModalTitle] = useState("")
 
   const addTaskModal = () => {
     window.task_form.showModal()
     setModalTitle("Add")
-   }
+  }
 
-   const filterProject = (project) => {
-    const filteredItem = taskDummy.filter((task) => task.project.name === project)
-    setDisplayTask(filteredItem)
-   }
+  useEffect(()=> {
+    if(currentProject === 'All'){
+        setDisplayTask(tasks)
+    } else {
+        const filteredTask = tasks.filter(task =>task.project.name === currentProject)
+        setDisplayTask(filteredTask)
+    }
+  }, [currentProject, tasks])
 
-   const logOutEvent = event => {
+
+   const logOutEvent = () => {
     handleLogout()
    }
 
@@ -142,8 +56,8 @@ const TodoPage = ({handleLogout}) => {
                     <a className="btn btn-primary" onClick={addTaskModal}>NEW TASK</a>
                 </div>
             </div>
-            <TaskModalForm action={modalTitle} />
-            <ButtonFilter filterProject={filterProject} setDisplay={setDisplayTask} projectItems={projectDummy} allTask={taskDummy} />
+            <TaskModalForm action={modalTitle} projects={projects} handleAddTask={handleAddTask} />
+            <ButtonFilter setCurrentProject={setCurrentProject} projectItems={projects} />
             {displayTask.length === 0 ? <p className='text-2xl text-center my-3'>There is no task to be displayed</p> :
                 <div className="container p-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {displayTask.map(task => <Todo task={task} key={task.id} setModalTitle={setModalTitle}/>)}
