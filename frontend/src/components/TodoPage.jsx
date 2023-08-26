@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import Todo from './Todo'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Link } from "react-router-dom"
 import ButtonFilter from './ButtonFilter'
 import TaskModalForm from './TaskModalForm'
@@ -10,13 +9,24 @@ import Clock from './Clock'
 const TodoPage = ({handleLogout, tasks, projects, handleAddTask, handleDeleteTask, handleUpdateTask}) => {
    const [displayTask, setDisplayTask] = useState(tasks)
    const [currentProject, setCurrentProject] = useState('All')
-   const [modalTitle, setModalTitle] = useState("")
+   const [currentItem, setCurrentItem] = useState(null)
+
+
 
   const addTaskModal = () => {
     window.task_form.showModal()
-    setModalTitle("Add")
+    setCurrentItem(null)
   }
 
+  const handleEditClick = useCallback((item) => {
+    setCurrentItem(item);
+}, []);
+
+useEffect(() => {
+    handleEditClick(currentItem)
+}, [currentItem, handleEditClick]);
+
+  
   useEffect(()=> {
     if(currentProject === 'All'){
         setDisplayTask(tasks)
@@ -32,7 +42,7 @@ const TodoPage = ({handleLogout, tasks, projects, handleAddTask, handleDeleteTas
    }
 
     return(
-        <div className='h-screen container flex flex-col'>
+        <div className='h-screen flex flex-col'>
             <div className="navbar bg-base-100">
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -56,11 +66,12 @@ const TodoPage = ({handleLogout, tasks, projects, handleAddTask, handleDeleteTas
                     <a className="btn btn-primary" onClick={addTaskModal}>NEW TASK</a>
                 </div>
             </div>
-            <TaskModalForm action={modalTitle} projects={projects} handleAddTask={handleAddTask} />
+            <TaskModalForm action={currentItem ? "Edit" : "Add"} projects={projects} handleAddTask={handleAddTask} task={currentItem} handleEditTask={handleUpdateTask} />
+            {/* <EditTaskForm task={currentItem} projects={projects} handleEditTask={handleEditClick} /> */}
             <ButtonFilter setCurrentProject={setCurrentProject} projectItems={projects} />
             {displayTask.length === 0 ? <p className='text-2xl text-center my-3'>There is no task to be displayed</p> :
                 <div className="container p-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {displayTask.map(task => <Todo task={task} key={task.id} setModalTitle={setModalTitle} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask}/>)}
+                {displayTask.map(task => <Todo task={task} key={task.id} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask} handleEditClick={handleEditClick}/>)}
                 </div>
             }
             <footer className="footer footer-center p-4 bg-base-300 text-base-content mt-auto">

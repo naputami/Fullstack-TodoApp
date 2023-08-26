@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import img from "../assets/designer-1c.png"
 import { Link } from "react-router-dom"
 import { useState } from "react"

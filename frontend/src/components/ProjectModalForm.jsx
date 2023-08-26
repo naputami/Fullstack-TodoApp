@@ -1,9 +1,18 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const ProjectModalForm = ({action, handleAddProject, handleEditProject, currentItem}) => {
-    const [name, setName] = useState(currentItem ? currentItem.name : '')
-    const [description, setDescription] = useState(currentItem ? currentItem.description : '')
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
+
+    useEffect(() => {
+        if(currentItem){
+            setName(currentItem.name)
+            setDescription(currentItem.description)
+        } else {
+            setName('')
+            setDescription('')
+        }
+    }, [currentItem])
 
     const modalProjectEvent = event => {
         event.preventDefault()

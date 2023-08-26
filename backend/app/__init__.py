@@ -1,7 +1,6 @@
 from flask import Flask
 from config import Config
 from app.extention import db, migrate, jwt
-from app.user import userBp
 from app.task import taskBp
 from app.project import projectBp
 from app.auth import authBp
@@ -15,7 +14,6 @@ def create_app(config_class = Config):
     migrate.init_app(app, db)
     jwt.init_app(app)
 
-    app.register_blueprint(userBp, url_prefix='/api/users')
     app.register_blueprint(taskBp, url_prefix='/api/tasks')
     app.register_blueprint(projectBp, url_prefix='/api/projects')
     app.register_blueprint(authBp, url_prefix='/api/auth')

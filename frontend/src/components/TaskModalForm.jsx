@@ -1,26 +1,64 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react"
-const TaskModalForm = ({action, projects, handleAddTask}) => {
+import { useState, useEffect } from "react"
+
+const stringToDate = (dateString) => {
+    const date = new Date(dateString)
+    const year = date.getUTCFullYear()
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0')
+    const day = date.getUTCDate().toString().padStart(2, '0')
+    return `${year}-${month}-${day}`
+}
+const TaskModalForm = ({action, projects, handleAddTask, task, handleEditTask}) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [dueDate, setDueDate] = useState('')
     const [selectedProject, setSelectedProject] = useState('DEFAULT');
 
+    useEffect(() => {
+        if(task){
+        setTitle(task.title)
+        setDescription(task.description)
+        setDueDate(stringToDate(task.due_date))
+        setSelectedProject(task.project.id)
+        } else {
+            setTitle('')
+            setDescription('')
+            setDueDate('')
+            setSelectedProject('DEFAULT')
+        }
+    }, [task])
+
     const modalTaskEvent = event => {
         event.preventDefault()
-        handleAddTask({
-            "title": title,
-            "description": description,
-            "due_date": dueDate,
-            "project_id": selectedProject
-        })
+        if(selectedProject === 'DEFAULT'){
+            alert('Please choose available project!')
+        } else {
+            if(action === 'Add'){
+                handleAddTask({
+                    "title": title,
+                    "description": description,
+                    "due_date": dueDate,
+                    "project_id": selectedProject
+                })
+            } else if(action === 'Edit'){
+                handleEditTask({
+                    "title": title,
+                    "description": description,
+                    "due_date": dueDate,
+                    "project_id": selectedProject,
+                    "is_done": Number(task.is_done),
+                    "id": task.id
+                })
+            }
 
+            
         setTitle('')
         setDescription('')
         setDueDate('')
         setSelectedProject('DEFAULT')
         window.task_form.close()
 
+
+        }
     }
 
     return(
@@ -39,7 +77,7 @@ const TaskModalForm = ({action, projects, handleAddTask}) => {
                         </label>
                         <input type="date"className="input input-bordered" value={dueDate} onChange={({target}) => setDueDate(target.value)}/>
                         <label className="label">
-                            <span className="label-text">Project</span>
+                            <span className="label-text md:text-lg xl:text-xl">Project</span>
                         </label>
                         <select className="select select-bordered" value={selectedProject} onChange={({target}) => setSelectedProject(target.value)}>
                             {projects.length === 0 ? (<option value="DEFAULT">Add a project first!</option>) : (

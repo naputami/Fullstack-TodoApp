@@ -1,10 +1,8 @@
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.utils import *
 from app.project import projectBp
 from app.extention import db
 from app.models.user import Users
-from app.models.task import Tasks
 from app.models.project import Projects
 
 
@@ -49,30 +47,6 @@ def get_projects():
     })
 
     return response, 200
-
-@projectBp.route('/user/<user_id>', methods=["GET"], strict_slashes=False)
-@jwt_required(locations=["headers"])
-def get_user_project(user_id):
-    user = Users.query.filter_by(id=user_id).first()
-    
-    if not user:
-        return jsonify({
-            "error": "user not found"
-        }), 404
-    
-    user_project_query = db.session.query(Projects).filter(Projects.user_id == user_id)
-    
-    user_project_data = [{"name": project.name, 
-                       "description": project.description,
-                       "id": project.id
-                       } for project in user_project_query]
-    
-    return jsonify({
-        "success" : True,
-        "user": user.serialize(),
-        "tasks": user_project_data
-    }), 200
-
 
 @projectBp.route('/<project_id>', methods=["PUT"], strict_slashes=False)
 @jwt_required(locations=["headers"])

@@ -1,11 +1,8 @@
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from sqlalchemy.exc import IntegrityError
 from app.task import taskBp
 from app.extention import db
-from app.models.user import Users
 from app.models.task import Tasks
-from app.models.project import Projects
 
 
 
@@ -133,57 +130,3 @@ def delete_task(task_id):
     })
 
     return response, 200
-
-@taskBp.route('/user/<user_id>', methods=["GET"], strict_slashes=False)
-@jwt_required(locations=["headers"])
-def get_user_task(user_id):
-    user = Users.query.filter_by(id=user_id).first()
-    
-    if not user:
-        return jsonify({
-            "error": "user not found"
-        }), 404
-
-    
-    user_task_query = db.session.query(Tasks).filter(Tasks.user_id == user_id)
-    
-    user_task_data = [{"title": task.title, 
-                       "description": task.description, 
-                       "due_date": task.due_date, 
-                       "is_done": task.is_done,
-                       "id": task.id,
-                       "project": {
-                           "id": task.project.id,
-                           "name": task.project.name
-                       }} for task in user_task_query]
-    
-    return jsonify({
-        "success" : True,
-        "user": user.serialize(),
-        "tasks": user_task_data
-    }), 200
-
-
-# @taskBp.route('/<task_id>', methods=["PATCH"], strict_slashes=False)
-# def change_is_done(task_id):
-#     data = utils.read_json(tasks_file)
-
-#     index = utils.find_index(data, "tasks", "task_id", task_id)
-
-#     if index != -1:
-#         new_status = request.get_json()
-#         data["tasks"][index]["is_done"] = new_status["is_done"]
-#         utils.rewrite_json(tasks_file, data)
-#         response = jsonify({
-#                 "success": True,
-#                 "message" : f'status of  task with id {task_id} has been changed'
-#         })
-
-#         return response, 200
-    
-#     response = jsonify({
-#         "success": False,
-#         "message": f'there is no task with id {task_id}'
-#     })
-
-#     return response, 404

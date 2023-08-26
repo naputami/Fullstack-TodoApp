@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import DeleteConfirmation from './DeleteConfirmation'
 
 const Project = ({project, handleDeleteProject, handleEditClick}) => {

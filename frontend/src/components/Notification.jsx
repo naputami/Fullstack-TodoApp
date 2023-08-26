@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// eslint-disable-next-line react/prop-types
 const Notification = ({ message, success }) => {
   const [showNotification, setShowNotification] = useState(true);
 

@@ -1,3 +1,9 @@
 Flask == 2.3.2
 Flask-Migrate == 4.0.4
-Flask-SQLAlchemy == 3.0.3
+Flask-SQLAlchemy==3.0.5
+Flask-Cors==4.0.0
+Flask-JWT-Extended==4.5.2
+Werkzeug==2.3.6
+alembic==1.11.2
+SQLAlchemy==2.0.17
+Mako==1.2.4

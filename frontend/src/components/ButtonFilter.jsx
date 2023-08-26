@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 const Button = ({ label, activeButton, setActiveButton, setCurrentProject }) => {
     const isActive = activeButton === label;

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import Project from './Project'
 import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom"
@@ -22,12 +21,12 @@ const ProjectPage = ({projects, handleAddProject, handleDeleteProject, handleLog
     useEffect(() => {
     }, [currentItem])
 
-    const logOutEvent = event => {
+    const logOutEvent = () => {
         handleLogout()
     }
 
     return(
-        <div className='h-screen container flex flex-col'>
+        <div className='h-screen flex flex-col'>
             <div className="navbar bg-base-100">
                 <div className="navbar-start">
                     <div className="dropdown">

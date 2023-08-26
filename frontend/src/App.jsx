@@ -25,16 +25,16 @@ function App() {
       const projects = await projectService.getAll()
       setProjects(projects.data)
     }
-    fetchProjects()
-  }, [user])
 
-  useEffect(() => {
     const fetchTasks = async () => {
       const tasks = await taskService.getAll()
       setTask(tasks.data)
-      console.log('this is tasks', tasks)
     }
-    fetchTasks()
+
+    if(user){
+      fetchProjects()
+      fetchTasks()
+    }
   }, [user])
   
   useEffect(() => {
