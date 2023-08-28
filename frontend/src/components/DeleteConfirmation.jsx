@@ -18,7 +18,7 @@ const DeleteConfirmation = ({item, handleDelete}) => {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="bg-base-100 p-6 rounded-lg shadow-lg w-80">
             <h2 className="text-lg font-semibold mb-4">Confirm Action</h2>
-            <p className="mb-4">Are you sure you want to proceed?</p>
+            <p className="mb-4">Are you sure you want to delete this item?</p>
             <div className="flex justify-end">
               <button
                 onClick={() => setIsOpen(false)}

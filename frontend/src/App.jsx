@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import LoginForm from './components/LoginForm'
@@ -19,21 +20,45 @@ function App() {
 
   const navigate = useNavigate()
 
+  const getToken = (token) => {
+      clientService.setToken(token["access token"])
+      clientService.setRefresh(token["refresh token"])
+      projectService.setToken(token["access token"])
+      taskService.setToken(token["access token"])
+  }
+
+  const fetchProjects = async () => {
+    const projects = await projectService.getAll()
+    setProjects(projects.data)
+  }
+
+  const fetchTasks = async () => {
+    const tasks = await taskService.getAll()
+    setTask(tasks.data)
+  }
+
+  const getNewAccessToken = async () => {
+    try{
+      const newAccessToken = await clientService.refreshAccessToken()
+      const user = JSON.parse(localStorage.getItem('loggedAppUser'));
+      user["access token"] = newAccessToken["access token"]
+      window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
+      getToken(user)
+      setUser(user)
+      console.log('Refresh token success!')
+    } catch(error){
+      console.log('Refresh token failed!')
+      console.log(error)
+    }
+
+  }
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      const projects = await projectService.getAll()
-      setProjects(projects.data)
-    }
-
-    const fetchTasks = async () => {
-      const tasks = await taskService.getAll()
-      setTask(tasks.data)
-    }
-
-    if(user){
-      fetchProjects()
-      fetchTasks()
+    if (user) {
+      Promise.all([fetchProjects(), fetchTasks()])
+        .catch(error => {
+          console.log(error)
+        });
     }
   }, [user])
   
@@ -42,11 +67,17 @@ function App() {
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      clientService.setToken(user["access token"])
-      projectService.setToken(user["access token"])
-      taskService.setToken(user["access token"])
+      getToken(user)
     }
   }, [])
+  
+  useEffect(() => {
+      const refreshTokenInterval = 15 * 60 * 1000
+      getNewAccessToken()
+      const intervalId = setInterval(getNewAccessToken, refreshTokenInterval);
+      return () => clearInterval(intervalId);
+  }, [])
+
 
   const handleRegis = async userObj => {
     try {
@@ -64,9 +95,7 @@ function App() {
   const handleLogin = async userObj => {
     try{
       const currentUser = await clientService.login(userObj)
-      clientService.setToken(currentUser["access token"])
-      projectService.setToken(currentUser["access token"])
-      taskService.setToken(currentUser["access token"])
+      getToken(currentUser)
       window.localStorage.setItem('loggedAppUser', JSON.stringify(currentUser))
       setUser(currentUser)
       navigate('/tasks')
@@ -83,6 +112,7 @@ function App() {
       window.localStorage.removeItem('loggedAppUser')
       setProjects([])
       setTask([])
+      setUser(null)
       navigate('/login')
       setSuccess(true)
       setNotifMessafe(userLogout.message)
@@ -144,7 +174,6 @@ function App() {
   const handleUpdateTask = async taskObj => {
     try{
       const updateTask = await taskService.putTask(taskObj)
-      console.log(updateTask)
       setTask(tasks.map(task => task.id !== taskObj.id ? task : updateTask.data))
     }catch(error){
       alert("something error, check console")
@@ -161,15 +190,9 @@ function App() {
         <Routes>
           <Route path='/register' element={<RegistrationForm handleRegis={handleRegis} message={notifMessage} success={success}/>}></Route>
           <Route path='/login' element={<LoginForm handleLogin={handleLogin} message={notifMessage} success={success} />}></Route>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='/tasks' element={<TodoPage handleLogout={handleLogout} tasks={tasks} projects={projects} handleAddTask={handleAddTask} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask} />}></Route>
-          <Route path='/projects' element={<ProjectPage 
-                                            projects={projects} 
-                                            handleAddProject={handleAddProject} 
-                                            handleDeleteProject={handleDeleteProject}
-                                            handleLogout={handleLogout}
-                                            handleEditProject={handleEditProject}/>}>                                  
-          </Route>
+          <Route path='/' element={<Home user={user} />}></Route>
+          <Route path='/tasks' element={user? <TodoPage handleLogout={handleLogout} tasks={tasks} projects={projects} handleAddTask={handleAddTask} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask} /> : <p className='text-2xl text-center'>Oops, you must login first!</p>}></Route>
+          <Route path='/projects' element={user? <ProjectPage projects={projects} handleAddProject={handleAddProject} handleDeleteProject={handleDeleteProject} handleLogout={handleLogout}handleEditProject={handleEditProject}/> : <p className='text-2xl text-center'>Oops, you must login first!</p>}></Route>
         </Routes>
       </>
   )

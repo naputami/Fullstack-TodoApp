@@ -67,7 +67,7 @@ const RegistrationForm = ({handleRegis, success, message}) => {
                             {passwordMatchMessage && (
                             <p className="text-accent text-lg my-3">{passwordMatchMessage}</p>
                             )}
-                            <button type="submit" className="btn btn-primary mt-4 w-full">Sign up</button>
+                            <button type="submit" disabled={passwordMatchMessage === 'Passwords do not match' ? true : false} className="btn btn-primary mt-4 w-full">Sign up</button>
                         </div>
                     </form>
                     <div className="link-element mt-3 text-center">

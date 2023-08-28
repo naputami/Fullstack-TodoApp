@@ -22,7 +22,7 @@ const ButtonFilter = ({setCurrentProject, projectItems}) => {
 
     return(
         <>
-            <div className="flex justify-center flex-wrap gap-2 my-3 sm:p-3">
+            <div className="flex justify-center flex-wrap gap-2 my-2 sm:p-3">
                 {projectItems.map(project => <Button key={project.id} label={project.name} setCurrentProject={setCurrentProject} activeButton={activeButton} setActiveButton={setActiveButton} />)}
                 <Button label='All' setCurrentProject={setCurrentProject} activeButton={activeButton} setActiveButton={setActiveButton} />
             </div>

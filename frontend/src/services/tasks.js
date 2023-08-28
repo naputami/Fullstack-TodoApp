@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios"
 const baseUrl = 'api/tasks'
 
 let token = null
@@ -12,7 +12,6 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
-    console.log(config)
     const response = await axios.get(baseUrl, config)
     return response.data
 }

@@ -54,7 +54,7 @@ useEffect(() => {
                         <li><a onClick={logOutEvent}>Logout</a></li>
                     </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-xl">PacToDo</a>
+                    <Link to="/" className="btn btn-ghost normal-case text-xl">PacToDo</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -67,7 +67,6 @@ useEffect(() => {
                 </div>
             </div>
             <TaskModalForm action={currentItem ? "Edit" : "Add"} projects={projects} handleAddTask={handleAddTask} task={currentItem} handleEditTask={handleUpdateTask} />
-            {/* <EditTaskForm task={currentItem} projects={projects} handleEditTask={handleEditClick} /> */}
             <ButtonFilter setCurrentProject={setCurrentProject} projectItems={projects} />
             {displayTask.length === 0 ? <p className='text-2xl text-center my-3'>There is no task to be displayed</p> :
                 <div className="container p-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">

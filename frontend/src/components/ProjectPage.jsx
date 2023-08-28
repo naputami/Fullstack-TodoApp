@@ -38,7 +38,7 @@ const ProjectPage = ({projects, handleAddProject, handleDeleteProject, handleLog
                         <li><a onClick={logOutEvent}>Logout</a></li>
                     </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-xl">PacToDo</a>
+                    <Link to='/' className="btn btn-ghost normal-case text-xl">PacToDo</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">

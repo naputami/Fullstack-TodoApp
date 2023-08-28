@@ -70,7 +70,7 @@ def login():
 def refresh():
     current_user = get_jwt_identity()
     access_token = {
-        'refresh_token': create_refresh_token(identity=current_user)
+        'access token': create_access_token(identity=current_user)
     }
     return jsonify(access_token), 200
 
