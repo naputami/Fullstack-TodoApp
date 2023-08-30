@@ -1,0 +1,32 @@
+version: '3'
+services:
+    flaskapp:
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      container_name: todo_flask
+      ports:
+        - 5000:5000
+      volumes:
+        - ./backend:/app
+      depends_on: 
+        - postgres
+      networks:
+        - mynetworks
+    
+    postgres:
+      build:
+        context: ./postgres
+        dockerfile: Dockerfile
+      container_name: todo_postgres
+      ports:
+        - 5439:5432
+      volumes:
+        - postgres-volume:/var/lib/postgresql/data
+      networks: 
+        - mynetworks
+
+networks:
+  mynetworks:
+volumes:
+  postgres-volume:

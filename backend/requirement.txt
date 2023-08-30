@@ -7,3 +7,5 @@ Werkzeug==2.3.6
 alembic==1.11.2
 SQLAlchemy==2.0.17
 Mako==1.2.4
+python-dotenv==1.0.0
+psycopg2==2.9.6

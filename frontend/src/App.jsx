@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom'
 import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
 import Home from './components/Home'
@@ -27,38 +27,21 @@ function App() {
       taskService.setToken(token["access token"])
   }
 
-  const fetchProjects = async () => {
-    const projects = await projectService.getAll()
-    setProjects(projects.data)
-  }
-
-  const fetchTasks = async () => {
-    const tasks = await taskService.getAll()
-    setTask(tasks.data)
-  }
-
-  const getNewAccessToken = async () => {
-    try{
-      const newAccessToken = await clientService.refreshAccessToken()
-      const user = JSON.parse(localStorage.getItem('loggedAppUser'));
-      user["access token"] = newAccessToken["access token"]
-      window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
-      getToken(user)
-      setUser(user)
-      console.log('Refresh token success!')
-    } catch(error){
-      console.log('Refresh token failed!')
-      console.log(error)
-    }
-
-  }
 
   useEffect(() => {
+    const fetchProjects = async () => {
+      const projects = await projectService.getAll()
+      setProjects(projects.data)
+    }
+  
+    const fetchTasks = async () => {
+      const tasks = await taskService.getAll()
+      setTask(tasks.data)
+    }
+  
     if (user) {
-      Promise.all([fetchProjects(), fetchTasks()])
-        .catch(error => {
-          console.log(error)
-        });
+      fetchProjects()
+      fetchTasks()
     }
   }, [user])
   
@@ -72,6 +55,23 @@ function App() {
   }, [])
   
   useEffect(() => {
+    const getNewAccessToken = async () => {
+      try{
+        if(localStorage.loggedAppUser){
+          const newAccessToken = await clientService.refreshAccessToken()
+          const user = JSON.parse(localStorage.getItem('loggedAppUser'));
+          user["access token"] = newAccessToken["access token"]
+          window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
+          getToken(user)
+          setUser(user)
+          console.log('Refresh token success!')
+        }
+      } catch(error){
+        console.log('Refresh token failed!')
+        console.log(error)
+      }
+  
+    }
       const refreshTokenInterval = 15 * 60 * 1000
       getNewAccessToken()
       const intervalId = setInterval(getNewAccessToken, refreshTokenInterval);
@@ -135,6 +135,7 @@ function App() {
     try{
       const deletedProject = await projectService.deleteProject(projectObj)
       setProjects(projects.filter(project => project.id !== projectObj.id))
+      setTask(tasks.filter(task => task.project.id !== projectObj.id))
     } catch (error){
       alert("something error, check console")
       console.log(error)
@@ -191,8 +192,8 @@ function App() {
           <Route path='/register' element={<RegistrationForm handleRegis={handleRegis} message={notifMessage} success={success}/>}></Route>
           <Route path='/login' element={<LoginForm handleLogin={handleLogin} message={notifMessage} success={success} />}></Route>
           <Route path='/' element={<Home user={user} />}></Route>
-          <Route path='/tasks' element={user? <TodoPage handleLogout={handleLogout} tasks={tasks} projects={projects} handleAddTask={handleAddTask} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask} /> : <p className='text-2xl text-center'>Oops, you must login first!</p>}></Route>
-          <Route path='/projects' element={user? <ProjectPage projects={projects} handleAddProject={handleAddProject} handleDeleteProject={handleDeleteProject} handleLogout={handleLogout}handleEditProject={handleEditProject}/> : <p className='text-2xl text-center'>Oops, you must login first!</p>}></Route>
+          <Route path='/tasks' element={localStorage.loggedAppUser? <TodoPage handleLogout={handleLogout} tasks={tasks} projects={projects} handleAddTask={handleAddTask} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask} /> : <Navigate replace to='/login'/>}> </Route>
+          <Route path='/projects' element={localStorage.loggedAppUser? <ProjectPage projects={projects} handleAddProject={handleAddProject} handleDeleteProject={handleDeleteProject} handleLogout={handleLogout}handleEditProject={handleEditProject}/> : <Navigate replace to='/login'/>}></Route>
         </Routes>
       </>
   )

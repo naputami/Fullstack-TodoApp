@@ -3,7 +3,7 @@ from app.extention import db
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), nullable = False)
-    email = db.Column(db.String(124), unique = True)
+    email = db.Column(db.String(124), unique = True, nullable = False)
     password = db.Column(db.String(1024), nullable = False)
     created_at = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())

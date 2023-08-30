@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.project import projectBp
 from app.extention import db
-from app.models.user import Users
+from app.models.task import Tasks
 from app.models.project import Projects
 
 
@@ -98,13 +98,14 @@ def delete_project(project_id):
         return jsonify({
             "message":'You do not have permission to delete this project'
         }), 403
-
+    
+    Tasks.query.filter_by(project_id=project_id).delete()
     db.session.delete(project)
     db.session.commit()
 
     response = jsonify({
                 "success": True,
-                "message" : f'project with id {project_id} has been deleted'
+                "message" : f'project with id {project_id} and associated tasks has been deleted'
     })
 
     return response, 200

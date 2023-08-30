@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const DeleteConfirmation = ({item, handleDelete}) => {
+const DeleteConfirmation = ({item, handleDelete, itemType}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleConfirm = () => {
@@ -16,9 +16,9 @@ const DeleteConfirmation = ({item, handleDelete}) => {
         </button>
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-base-100 p-6 rounded-lg shadow-lg w-80">
-            <h2 className="text-lg font-semibold mb-4">Confirm Action</h2>
-            <p className="mb-4">Are you sure you want to delete this item?</p>
+          <div className="bg-base-300 p-6 rounded-lg shadow-lg w-90">
+            <h2 className="text-xl font-semibold mb-4">Confirm Action</h2>
+            <p className="mb-4">{itemType === 'project' ? 'Are you sure you want to delete this project? All associated tasks will also be deleted': 'Are you sure you want to delete this task?'} </p>
             <div className="flex justify-end">
               <button
                 onClick={() => setIsOpen(false)}
