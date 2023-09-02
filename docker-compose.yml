@@ -5,24 +5,28 @@ services:
         context: ./backend
         dockerfile: Dockerfile
       container_name: todo_flask
+      environment:
+      - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       ports:
         - 5000:5000
-      volumes:
-        - ./backend:/app
       depends_on: 
         - postgres
       networks:
         - mynetworks
     
     postgres:
-      build:
-        context: ./postgres
-        dockerfile: Dockerfile
+      image: postgres:latest
       container_name: todo_postgres
       ports:
-        - 5439:5432
+        - 5440:5432
+      environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
       volumes:
         - postgres-volume:/var/lib/postgresql/data
+        - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
       networks: 
         - mynetworks
 
