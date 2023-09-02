@@ -2,7 +2,7 @@ version: '3'
 services:
     flaskapp:
       build:
-        context: ./backend
+        context: ./flask
         dockerfile: Dockerfile
       container_name: todo_flask
       environment:
