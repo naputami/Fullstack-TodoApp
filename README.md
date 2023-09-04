@@ -150,9 +150,54 @@ else
     echo "Database backup failed."
 fi
 ```
-The `config.txt` file contains the values of the `POSTGRES_USER` and `POSTGRES_DB` variables. I sourced it into the script so that the variables are only available while the script is running.  
+The `config.txt` file contains the values of the `POSTGRES_USER` variable. I sourced it into the script so that the variables are only available while the script is running.  
 To enable automatic backups, I have configured a cron service schedule to back up the database daily at 9 AM.
-![Cron scheduling](./readmeimg/crontab.jpg "Cron scheduling")
+![Cron scheduling](./readmeimg/crontab.jpg "Cron scheduling")  
+If the backup process is successs, the backup files are saved as SQL file in the `backup_dir`. You can check example of backup files in [this folder](/backup-database)
 ### Restore Database
+We can use backkup file to restore database by running `restore.sh` in the Linux terminal.
+```
+#!/bin/bash
+
+source $(realpath ~/backup/config.txt)
+
+db_name=$POSTGRES_DB
+
+db_user=$POSTGRES_USER
+
+CONTAINER_NAME="todo_postgres"
+
+read -p "Enter the path to the backup file: " BACKUP_FILE
+
+if [ ! -f "$BACKUP_FILE" ]; then
+    echo "Backup file does not exist."
+    exit 1
+fi
+
+docker cp $BACKUP_FILE $CONTAINER_NAME:/backup-file.sql
+
+docker exec -it $CONTAINER_NAME bash -c "psql -U $db_user -d $db_name -f /backup-file.sql"
+
+if [ $? -eq 0 ]; then
+    echo "Backup restore completed successfully."
+else
+    echo "Backup restore failed."
+fi
+```
+The `config.txt` file contains the values of the `POSTGRES_USER` and `POSTGRES_DB` variables. I sourced it into the script so that the variables are only available while the script is running.  
+We can input the path of the backup file we want to use to restore the database. If the file is available, it will be copied to the PostgreSQL container, and the psql restore command will be executed.
 ## How to run this app
+1. Clone this repository
+```
+git clone https://github.com/naputami/Fullstack-TodoApp.git
+```
+2. Make sure that you have installed docker desktop and run this command
+```
+docker compose up
+```
+3. You can access the application via localhost:5050.
 ## Conclusion
+All of the application's features currently function as expected. However, there are areas that can be enhanced in the future, including:
+- Enhancing UI Design for improved intuitiveness and accessibility.
+- Enhancing the database design to accommodate more detailed user data.
+- Adding additional features to enhance UX, such as searching for projects by name and sorting tasks by due date and status.
