@@ -74,7 +74,7 @@ PacToDo App is a task and project management application that simplifies the org
 ## Deployment Using Docker
 To ensure that the app can run seamlessly on various servers, i utilized Docker for deployment. Docker provides an isolated environment for the app, enhancing portability and security.  
 ### Building Container Using Docker Compose
-I used Dockerfile to build image for Flask.
+Before building the Docker image, I build the React code using the `npm run build` command and then copied it to the flask folder to be served by the Flask app. I used Dockerfile to build image for Flask app.
 ```
 FROM python:3.10
 COPY . /app
@@ -191,11 +191,12 @@ We can input the path of the backup file we want to use to restore the database.
 ```
 git clone https://github.com/naputami/Fullstack-TodoApp.git
 ```
-2. Make sure that you have installed docker desktop and run this command
+2. Create a .env file and set value for SQLALCHEMY_DATABASE_URI, JWT_SECRET_KEY, POSTGRES_USER, POSTGRES_PASSWORD, and POSTGRES_DB.
+3.  Make sure that you have installed docker desktop and run this command
 ```
 docker compose up
 ```
-3. You can access the application via localhost:5050.
+4. You can access the application via localhost:5050.
 ## Conclusion
 All of the application's features currently function as expected. However, there are areas that can be enhanced in the future, including:
 - Enhancing UI Design for improved intuitiveness and accessibility.
