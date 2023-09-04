@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $(realpath ~/backup/backup-config.txt)
+source $(realpath ~/backup/config.txt)
 
 current_datetime=$(date +"%y%m%d_%H%M%S")
 

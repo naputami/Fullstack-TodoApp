@@ -26,8 +26,8 @@ const ProjectPage = ({projects, handleAddProject, handleDeleteProject, handleLog
     }
 
     return(
-        <div className='h-screen flex flex-col'>
-            <div className="navbar bg-base-100">
+        <div className='h-screen w-screen flex flex-col'>
+            <div className="navbar bg-base-100 fixed">
                 <div className="navbar-start">
                     <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -47,15 +47,17 @@ const ProjectPage = ({projects, handleAddProject, handleDeleteProject, handleLog
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn btn-primary" onClick={addProjectModal}>NEW PROJECT</a>
+                    <a className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-primary" onClick={addProjectModal}>NEW PROJECT</a>
                 </div>
             </div>
             <ProjectModalForm action={currentItem ? "Edit" : "Add"} handleAddProject={handleAddProject} handleEditProject={handleEditProject} currentItem={currentItem} />
+            <div className='pt-20'>
             {projects.length === 0 ? <p className='text-2xl text-center my-3'>There is no project to be displayed</p> :
                 <div className="container p-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {projects.map(project => <Project project={project} key={project.id}  handleDeleteProject={handleDeleteProject} handleEditClick={handleEditClick} />)}
                 </div>
             }
+            </div>
             <footer className="footer footer-center p-4 bg-base-300 text-base-content mt-auto">
             <div>
                <Clock />

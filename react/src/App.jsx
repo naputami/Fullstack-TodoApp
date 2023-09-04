@@ -36,7 +36,7 @@ function App() {
   
     const fetchTasks = async () => {
       const tasks = await taskService.getAll()
-      setTask(tasks.data)
+      setTask(tasks.data.sort((a,b) => a.is_done - b.is_done))
     }
   
     if (user) {
@@ -155,7 +155,7 @@ function App() {
   const handleAddTask = async taskObj => {
     try {
       const newTask = await taskService.postTask(taskObj)
-      setTask(tasks.concat(newTask.data))
+      setTask(tasks.concat(newTask.data).sort((a,b) => a.is_done - b.is_done))
     }catch(error){
       alert("something error, check console")
       console.log(error)
@@ -175,7 +175,7 @@ function App() {
   const handleUpdateTask = async taskObj => {
     try{
       const updateTask = await taskService.putTask(taskObj)
-      setTask(tasks.map(task => task.id !== taskObj.id ? task : updateTask.data))
+      setTask(tasks.map(task => task.id !== taskObj.id ? task : updateTask.data).sort((a,b) => a.is_done - b.is_done))
     }catch(error){
       alert("something error, check console")
       console.log(error)

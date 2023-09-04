@@ -42,8 +42,8 @@ useEffect(() => {
    }
 
     return(
-        <div className='h-screen flex flex-col'>
-            <div className="navbar bg-base-100">
+        <div className='h-screen w-screen flex flex-col relative'>
+            <div className="navbar bg-base-100 fixed top-0">
                 <div className="navbar-start">
                     <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -63,16 +63,19 @@ useEffect(() => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn btn-primary" onClick={addTaskModal}>NEW TASK</a>
+                    <a className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-primary" onClick={addTaskModal}>NEW TASK</a>
                 </div>
             </div>
             <TaskModalForm action={currentItem ? "Edit" : "Add"} projects={projects} handleAddTask={handleAddTask} task={currentItem} handleEditTask={handleUpdateTask} />
-            <ButtonFilter setCurrentProject={setCurrentProject} projectItems={projects} />
+            <div className='pt-20'>
+            <ButtonFilter setCurrentProject={setCurrentProject} projectItems={projects} className="my-10" />
             {displayTask.length === 0 ? <p className='text-2xl text-center my-3'>There is no task to be displayed</p> :
                 <div className="container p-6 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {displayTask.map(task => <Todo task={task} key={task.id} handleDeleteTask={handleDeleteTask} handleUpdateTask={handleUpdateTask} handleEditClick={handleEditClick}/>)}
                 </div>
             }
+            </div>
+         
             <footer className="footer footer-center p-4 bg-base-300 text-base-content mt-auto">
             <div>
                <Clock />
