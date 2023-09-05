@@ -6,8 +6,8 @@ PacToDo App is a task and project management application that simplifies the org
 - Login and Logout: Securely log in to your account and log out when you're done, ensuring the privacy of your data.  
 - Task Handling: Easily add, edit, or remove tasks.
 - Task Completion: Mark tasks as done when they're finished.
-- Project Organization: Categorize tasks into different projects.
-- Project Management: Create, edit, or delete projects.
+- Task Organization: Categorize tasks into different projects.
+- Project Handling: Create, edit, or delete projects.
 - Filtering: Find tasks quickly by project
 
 ## Stack
@@ -28,23 +28,30 @@ PacToDo App is a task and project management application that simplifies the org
 
 ### ERD
 ![ERD of PacToDo App](/readmeimg/TodoERD.png "ERD of PacToDo App")
-### Functions
-|Functions   |Description   |
+### Module/Function
+#### Flask
+|Module   |Description   |
 |---|---|
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
+|app|containing database models, endpoint logic, and static files from React build |
+|config.py|containing configuration for SQAlchemy and JWT Token   |
+|run.py   |containing code for running the Flask app   |
+
+#### React
+The following are functions for the main features.
+| Function  |Description   |
+|---|---|
+|fetchProjects()  | fetching projects from project endpoint  |
+|fetchTasks()   |fetching tasks from task endpoint   |
+|handleRegis(data)   | sending user data from registration form to registration endpoint  |
+|handlelogin(data)   | sending user data from login form to login endpoint, and saving access and refresh token to local storage    |
+|handlelogout()   | sending logout request to logout end point, remove user data from state and local storage  |
+|handleAddProject(data)   |sending new project data from user to project endpoint  |
+|handleDeleteProject(data)   |sending request for deleting certain project to project endpoint   |
+|handleEditProject(data)   |sending edited project data from user to project endpoint   |
+|handleAddTask(data)   |sending new task data from user to task endpoint   |
+|handleDeleteProject(data)  | sending request for deleting certain task to task endpoint  |
+|handleUpdateTask(data)   |sending updated task data from user to task endpoint   |
+
 ### Test Cases
 #### Account Registration
 ![Account registration](./readmeimg/testcase_register.gif "Account registration")
@@ -155,7 +162,7 @@ To enable automatic backups, I have configured a cron service schedule to back u
 ![Cron scheduling](./readmeimg/crontab.jpg "Cron scheduling")  
 If the backup process is successs, the backup files are saved as SQL file in the `backup_dir`. You can check example of backup files in [this folder](/backup-database)
 ### Restore Database
-We can use backkup file to restore database by running `restore.sh` in the Linux terminal.
+We can use backup file to restore database by running `restore.sh` in the Linux terminal.
 ```
 #!/bin/bash
 
