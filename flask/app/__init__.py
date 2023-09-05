@@ -8,8 +8,8 @@ from app.auth import authBp
 def create_app(config_class = Config):
 
     app = Flask(__name__, static_url_path='',
-                  static_folder='template',
-                  template_folder='template')
+                  static_folder='dist',
+                  template_folder='dist')
     
     app.config.from_object(config_class)
 
