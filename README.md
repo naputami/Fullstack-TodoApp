@@ -10,9 +10,9 @@ PacToDo App is a task and project management application that simplifies the org
 - Project Handling: Create, edit, or delete projects.
 - Filtering: Find tasks quickly by project
 
-## Stack
+## Requirements
 - Front end: React.js, CSS Tailwind, Axios, Daisy UI  
-- Back end: Flask, SQLAlchemy, PostgreSQL
+- Back end: Flask, Flask-Migrate, Flask-SQLAlchemy, Flask-Cors, Flask-JWT-Extended
 - Container: Docker
 
 ## App Development
@@ -49,16 +49,14 @@ The following are functions for the main features.
 |handleDeleteProject(data)   |sending request for deleting certain project to project endpoint   |
 |handleEditProject(data)   |sending edited project data from user to project endpoint   |
 |handleAddTask(data)   |sending new task data from user to task endpoint   |
-|handleDeleteProject(data)  | sending request for deleting certain task to task endpoint  |
+|handleDeleteTask(data)  | sending request for deleting certain task to task endpoint  |
 |handleUpdateTask(data)   |sending updated task data from user to task endpoint   |
 
 ### Test Cases
 #### Account Registration
 ![Account registration](./readmeimg/testcase_register.gif "Account registration")
-#### Login (Success)
+#### Login
 ![Test case login successful](./readmeimg/testcase_login_success.gif "Test case login successful")
-#### Login (Failed)
-![Test case login failed](./readmeimg/testcase_login_fail.gif "Test case login failed")
 #### Add project
 ![Test case add project](./readmeimg/testcase_add_project.gif "Test case add project")
 #### Edit Project
@@ -160,7 +158,7 @@ fi
 The `config.txt` file contains the values of the `POSTGRES_USER` variable. I sourced it into the script so that the variables are only available while the script is running.  
 To enable automatic backups, I have configured a cron service schedule to back up the database daily at 9 AM.
 ![Cron scheduling](./readmeimg/crontab.jpg "Cron scheduling")  
-If the backup process is successs, the backup files are saved as SQL file in the `backup_dir`. You can check example of backup files in [this folder](/backup-database)
+If the backup process is successs, the backup files are saved as SQL file in the `backup_dir`. You can check example of the backup files in [this folder](/backup-database)
 ### Restore Database
 We can use backup file to restore database by running `restore.sh` in the Linux terminal.
 ```
