@@ -15,6 +15,20 @@ services:
       networks:
         - mynetworks
     
+    reactapp:
+      build: 
+        context: ./react
+        dockerfile: Dockerfile
+      container_name: todo_react
+      ports:
+        - 80:80
+      depends_on:
+        - flaskapp
+      links:
+        - flaskapp
+      networks:
+        - mynetworks
+
     postgres:
       image: postgres:latest
       container_name: todo_postgres

@@ -12,7 +12,7 @@ PacToDo App is a task and project management application that simplifies the org
 
 ## Requirements
 - Front end: React.js, CSS Tailwind, Axios, Daisy UI  
-- Back end: Flask, Flask-Migrate, Flask-SQLAlchemy, Flask-Cors, Flask-JWT-Extended
+- Back end: Flask, Flask-Migrate, Flask-SQLAlchemy, Flask-Cors, Flask-JWT-Extended, PostgreSQL
 - Container: Docker
 
 ## App Development
@@ -56,7 +56,7 @@ The following are functions for the main features.
 #### Account Registration
 ![Account registration](./readmeimg/testcase_register.gif "Account registration")
 #### Login
-![Test case login successful](./readmeimg/testcase_login_success.gif "Test case login successful")
+![Test case login successful](./readmeimg/testcase_login.gif "Test case login successful")
 #### Add project
 ![Test case add project](./readmeimg/testcase_add_project.gif "Test case add project")
 #### Edit Project
@@ -79,7 +79,9 @@ The following are functions for the main features.
 ## Deployment Using Docker
 To ensure that the app can run seamlessly on various servers, i utilized Docker for deployment. Docker provides an isolated environment for the app, enhancing portability and security.  
 ### Building Container Using Docker Compose
-Before building the Docker image, I build the React code using the `npm run build` command and then copied it to the flask folder to be served by the Flask app. I used Dockerfile to build image for Flask app.
+Before building the Docker image, I build the React code using the `npm run build`. The static files from the building process then is served
+
+I used Dockerfile to build image for Flask app.
 ```
 FROM python:3.10
 COPY . /app
@@ -204,6 +206,7 @@ docker compose up
 4. You can access the application via localhost:5050.
 ## Conclusion
 All of the application's features currently function as expected. However, there are areas that can be enhanced in the future, including:
-- Enhancing UI Design for improved intuitiveness and accessibility.
+- Enhancing UI Design for improving intuitiveness and accessibility.
+- Enhancing the notification system to make notifications more user-friendly.
 - Enhancing the database design to accommodate more detailed user data.
 - Adding additional features to enhance UX, such as searching for projects by name and sorting tasks by due date and status.

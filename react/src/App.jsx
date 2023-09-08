@@ -117,7 +117,9 @@ function App() {
       setSuccess(true)
       setNotifMessafe(userLogout.message)
     }catch(error){
-      console.log(error)
+      alert("something error, Please try again!")
+      console(error)
+      
     }
   }
 
@@ -126,8 +128,8 @@ function App() {
       const newProject = await projectService.postProject(projectObj)
       setProjects(projects.concat(newProject.data))
     } catch (error){
-      alert("something error, check console")
-      console(error)
+      alert("something error, Please try again!")
+      console.log(error)
     }
   }
 
@@ -137,7 +139,7 @@ function App() {
       setProjects(projects.filter(project => project.id !== projectObj.id))
       setTask(tasks.filter(task => task.project.id !== projectObj.id))
     } catch (error){
-      alert("something error, check console")
+      alert("something error, Please try again!")
       console.log(error)
     }
   }
@@ -147,7 +149,7 @@ function App() {
       const updatedProject = await projectService.putProject(projectObj)
       setProjects(projects.map(project => project.id !== projectObj.id ? project : projectObj))
     } catch(error){
-      alert("something error, check console")
+      alert("something error, Please try again!")
       console.log(error)
     }
   }
@@ -157,7 +159,7 @@ function App() {
       const newTask = await taskService.postTask(taskObj)
       setTask(tasks.concat(newTask.data).sort((a,b) => a.is_done - b.is_done))
     }catch(error){
-      alert("something error, check console")
+      alert("something error, Please try again!")
       console.log(error)
     }
   }
@@ -167,7 +169,7 @@ function App() {
       const deleteTask = await taskService.deleteTask(taskObj)
       setTask(tasks.filter(task => task.id !== taskObj.id))
     }catch(error){
-      alert("something error, check console")
+      alert("something error, Please try again!")
       console.log(error)
     }
   }
@@ -177,7 +179,7 @@ function App() {
       const updateTask = await taskService.putTask(taskObj)
       setTask(tasks.map(task => task.id !== taskObj.id ? task : updateTask.data).sort((a,b) => a.is_done - b.is_done))
     }catch(error){
-      alert("something error, check console")
+      alert("something error, Please try again!")
       console.log(error)
     }
   }
