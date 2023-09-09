@@ -1,4 +1,4 @@
-import img from "../assets/designer-1c.png"
+import img from "../../public/designer-1c.png"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import Notification from "./Notification"

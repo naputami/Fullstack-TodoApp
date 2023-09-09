@@ -1,5 +1,5 @@
 import { useState } from "react"
-import img from "../assets/checklist-88.png"
+import img from "../../public/checklist-88.png"
 import { Link } from "react-router-dom"
 import Notification from "./Notification"
 
