@@ -25,6 +25,8 @@ PacToDo App is a task and project management application that simplifies the org
 ![Flow chart projects](/readmeimg/PacToDo_Projects.png "Flow chart projects")
 #### Tasks
 ![Flow chart tasks](/readmeimg/PacToDo_Tasks.png "Flow chart tasks")
+#### Logout
+![Flow chart logout](/readmeimg/PacToDo_Logout.png "Flow chart logout")
 
 ### ERD
 ![ERD of PacToDo App](/readmeimg/TodoERD.png "ERD of PacToDo App")
