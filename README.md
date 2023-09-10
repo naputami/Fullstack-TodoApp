@@ -44,7 +44,7 @@ Users are required to create a new project before adding a new task, especially 
 Form for editing project will be displayed after user click the edit project button. If the user clicks the 'Save' button, the edited project data will be sent to the database via the `api/projects/project_id` endpoint using the PUT method. If the process is successful, the frontend will render the edited project. In case of a failed project edit, a window alert will be displayed.
 #### Delete project
 ![Test case delete project](./readmeimg/testcase_delete_project.gif "Test case delete project")
-Clicking delete project button will trigger the app to send DELETE request to `api/projects/project_id` endpoint. The deleted project will not be displayed when the deletion process is success. A window alert will be displayed when deletion process is failed.
+Clicking delete project button will trigger the app to send DELETE request to `api/projects/project_id` endpoint. The deleted project will not be displayed when the deletion process is success. All tasks associated with the deleted project will be removed as well. A window alert will be displayed when deletion process is failed.
 #### Add task
 ![Test case add task](./readmeimg/testcase_add_task.gif "Test case add task")
  When user click add new task button, the app will display a form for submitting new task. The app will sent POST request to `api/tasks` then the new task data is saved to database. Next, the frontend will render new task data to be displayed. If adding task is failed, a window alert will be displayed.
