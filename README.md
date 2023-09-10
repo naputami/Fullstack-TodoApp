@@ -76,7 +76,7 @@ git clone https://github.com/naputami/Fullstack-TodoApp.git
 ```
 docker compose up
 ```
-4. You can access the application via localhost:5050.
+4. You can access the application via localhost:80.
 ## Conclusion
 All of the application's features currently function as expected. However, there are areas that can be enhanced in the future, including:
 - Enhancing UI Design for improving intuitiveness and accessibility.
