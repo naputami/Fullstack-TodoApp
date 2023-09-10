@@ -44,7 +44,7 @@ const ProjectModalForm = ({action, handleAddProject, handleEditProject, currentI
                     <label className="label">
                             <span className="label-text md:text-lg xl:text-xl">Project name</span>
                         </label>
-                        <input type="text" placeholder="Input project title" className="input input-bordered" value={name} onChange={({target}) => setName(target.value)} />
+                        <input type="text" placeholder="Input project title" className="input input-bordered" value={name} onChange={({target}) => setName(target.value)} required />
                         <label className="label">
                             <span className="label-text md:text-lg xl:text-xl">Description</span>
                         </label>

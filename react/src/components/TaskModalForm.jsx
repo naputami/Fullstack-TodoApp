@@ -71,11 +71,11 @@ const TaskModalForm = ({action, projects, handleAddTask, task, handleEditTask}) 
                     <label className="label">
                             <span className="label-text md:text-lg xl:text-xl">Task title</span>
                         </label>
-                        <input type="text" placeholder="Input task title" className="input input-bordered" value={title} onChange={({target}) => setTitle(target.value)}/>
+                        <input type="text" placeholder="Input task title" className="input input-bordered" value={title} onChange={({target}) => setTitle(target.value)} required/>
                         <label className="label">
                             <span className="label-text md:text-lg xl:text-xl">Due date</span>
                         </label>
-                        <input type="date"className="input input-bordered" value={dueDate} onChange={({target}) => setDueDate(target.value)}/>
+                        <input type="date"className="input input-bordered" value={dueDate} onChange={({target}) => setDueDate(target.value)} required/>
                         <label className="label">
                             <span className="label-text md:text-lg xl:text-xl">Project</span>
                         </label>

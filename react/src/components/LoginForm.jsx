@@ -37,11 +37,11 @@ const LoginForm = ({handleLogin, success, message}) => {
                     <label className="label">
                         <span className="label-text md:text-lg xl:text-xl">E-mail</span>
                     </label>
-                    <input type="text" placeholder="example@gmail.com" className="input input-bordered" value={email} onChange={({target}) => setEmail(target.value)} />
+                    <input type="text" placeholder="example@gmail.com" className="input input-bordered" value={email} onChange={({target}) => setEmail(target.value)} required />
                     <label className="label">
                         <span className="label-text md:text-lg xl:text-xl">Password</span>
                     </label>
-                    <input type="password" placeholder="Input password here" className="input input-bordered" value={password} onChange={({target}) => setPassword(target.value)} />
+                    <input type="password" placeholder="Input password here" className="input input-bordered" value={password} onChange={({target}) => setPassword(target.value)} required />
                     <button type="submit" className="btn btn-primary mt-4 w-full">Login</button>
                 </div>
             </form>

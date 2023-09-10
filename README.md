@@ -28,171 +28,44 @@ PacToDo App is a task and project management application that simplifies the org
 
 ### ERD
 ![ERD of PacToDo App](/readmeimg/TodoERD.png "ERD of PacToDo App")
-### Module/Function
-#### Flask
-|Module   |Description   |
-|---|---|
-|app|containing database models, endpoint logic, and static files from React build |
-|config.py|containing configuration for SQAlchemy and JWT Token   |
-|run.py   |containing code for running the Flask app   |
 
-#### React
-The following are functions for the main features.
-| Function  |Description   |
-|---|---|
-|fetchProjects()  | fetching projects from project endpoint  |
-|fetchTasks()   |fetching tasks from task endpoint   |
-|handleRegis(data)   | sending user data from registration form to registration endpoint  |
-|handlelogin(data)   | sending user data from login form to login endpoint, and saving access and refresh token to local storage    |
-|handlelogout()   | sending logout request to logout end point, remove user data from state and local storage  |
-|handleAddProject(data)   |sending new project data from user to project endpoint  |
-|handleDeleteProject(data)   |sending request for deleting certain project to project endpoint   |
-|handleEditProject(data)   |sending edited project data from user to project endpoint   |
-|handleAddTask(data)   |sending new task data from user to task endpoint   |
-|handleDeleteTask(data)  | sending request for deleting certain task to task endpoint  |
-|handleUpdateTask(data)   |sending updated task data from user to task endpoint   |
-
-### Test Cases
+### Demonstration
 #### Account Registration
 ![Account registration](./readmeimg/testcase_register.gif "Account registration")
+The app displays a registration form to the user, which includes validation for both email and password formats. Email addresses must adhere to the standard email format, and passwords must contain a minimum of 8 characters, including a combination of letters, numbers, and special characters. Additionally, there is a check to ensure that the password entered in the 'password' field matches the one in the 'confirm password' field. The submitted data is sent to the database via the `/api/auth/register` endpoint. The notification, whether indicating the success or failure of the registration, will be displayed to the user.
 #### Login
 ![Test case login successful](./readmeimg/testcase_login.gif "Test case login successful")
+The app displays a login form to the user, featuring fields for email and password. The submitted data is sent to the database via the `api/auth/login` endpoint. If the login is successful, the Flask app returns an access token and refresh token, which are stored in the local storage. In case of a failed login attempt, a notification will be displayed to the user. Every 15 minutes the app will send request to `api/auth/refresh` to get new access token.
 #### Add project
 ![Test case add project](./readmeimg/testcase_add_project.gif "Test case add project")
+Users are required to create a new project before adding a new task, especially if they don't have any existing projects at the time. When user click add new project button, the app will display a form for submitting new project. The app will sent POST request to `api/projects` then the new project data is saved to database. Next, the frontend will render new project data to be displayed. If adding project is failed, a window alert will be displayed. 
 #### Edit Project
 ![Test case edit project](./readmeimg/testcase_edit_project.gif "Test case edit project")
+Form for editing project will be displayed after user click the edit project button. If the user clicks the 'Save' button, the edited project data will be sent to the database via the `api/projects/project_id` endpoint using the PUT method. If the process is successful, the frontend will render the edited project. In case of a failed project edit, a window alert will be displayed.
 #### Delete project
 ![Test case delete project](./readmeimg/testcase_delete_project.gif "Test case delete project")
+Clicking delete project button will trigger the app to send DELETE request to `api/projects/project_id` endpoint. The deleted project will not be displayed when the deletion process is success. A window alert will be displayed when deletion process is failed.
 #### Add task
 ![Test case add task](./readmeimg/testcase_add_task.gif "Test case add task")
+ When user click add new task button, the app will display a form for submitting new task. The app will sent POST request to `api/tasks` then the new task data is saved to database. Next, the frontend will render new task data to be displayed. If adding task is failed, a window alert will be displayed.
+ #### Edit task
+![Test case edit task](./readmeimg/testcase_edit_task.gif "Test case edit task")
+Form for editing task will be displayed after user click the edit task button. If the user clicks the 'Save' button, the edited task data will be sent to the database via the `api/tasks/task_id` endpoint using the PUT method. If the process is successful, the frontend will render the edited task. In case of a failed task edit, a window alert will be displayed.  
 #### Mark task as done
 ![Test case mark task as done](./readmeimg/testcase_mark_as_done_task.gif "Test case mark task as done")
-#### Edit task
-![Test case edit task](./readmeimg/testcase_edit_task.gif "Test case edit task")
+When a user clicks the green checkmark button, the app sends a PUT request to `api/tasks/task_id` with the request body containing task data, with the `is_done` attribute set to `true`. If the process succeeds, the task will be rendered with a strikethrough effect on its text. Additionally, the green checkmark button will be replaced with a blue undo button. Clicking the blue undo button triggers the same process, but with the `is_done` attribute set to `false`, rendering the task as it was before the checkmark button was clicked. The tasks are sorted by `is_done` value. In case of a failed process, a window alert will be displayed.
 ##### Filter task by project
 ![Test case filter task](./readmeimg/testcase_filter_task.gif "Test case filter task")
+By default, the active filter button is set to 'All,' which does not filter any projects. When a user clicks on one of the filter project buttons, the app will only display tasks that are associated with the clicked filter button.
 #### Delete task
 ![Test case delete task](./readmeimg/testcase_delete_task.gif "Test case delete task")
+Clicking delete task button will trigger the app to send DELETE request to `api/tasks/task_id` endpoint. The deleted task will not be displayed when the deletion process is success. A window alert will be displayed when deletion process is failed.
 #### Logout
 ![Test case logout](./readmeimg/testcase_logout.gif "Test case logout")
-
+When a user clicks the logout button, the React app sends a POST request to `api/auth/logout`. The user's token is added to the blacklist_token table. If logout is success, all user data will be removed from local storage and the app state. In case the logout failed, a window alert will be displayed to the user.
 ## Deployment Using Docker
-To ensure that the app can run seamlessly on various servers, i utilized Docker for deployment. Docker provides an isolated environment for the app, enhancing portability and security.  
-### Building Container Using Docker Compose
-Before building the Docker image, I build the React code using the `npm run build`. The static files from the building process then is served
+You can find the deployment documentation in [this repository](https://github.com/naputami/Todo_App_deployment#pactodo-deployment-using-docker)
 
-I used Dockerfile to build image for Flask app.
-```
-FROM python:3.10
-COPY . /app
-WORKDIR /app
-RUN pip install -r requirement.txt
-EXPOSE 5000
-CMD ["python","run.py"]
-```
-The Flask and PostgreSQL containers are built using Docker Compose with the following configurations.
-```
-version: '3'
-services:
-    flaskapp:
-      build:
-        context: ./flask
-        dockerfile: Dockerfile
-      container_name: todo_flask
-      environment:
-      - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-      ports:
-        - 5000:5000
-      depends_on: 
-        - postgres
-      networks:
-        - mynetworks
-    
-    postgres:
-      image: postgres:latest
-      container_name: todo_postgres
-      ports:
-        - 5439:5432
-      environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      volumes:
-        - postgres-volume:/var/lib/postgresql/data
-        - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-      networks: 
-        - mynetworks
-
-networks:
-  mynetworks:
-volumes:
-  postgres-volume:
-
-```
-Environment variables are imported from a .env file for security reasons.
-### Back Up Database and Scheduling with Cron
-We can back up the database by running the `backup.sh` script in the Linux terminal.
-```
-#!/bin/bash
-
-source $(realpath ~/backup/config.txt)
-
-current_datetime=$(date +"%y%m%d_%H%M%S")
-
-container_name="todo_postgres"
-
-backup_dir="$(realpath ~/backup/todo_postgres)"
-
-db_user=$POSTGRES_USER
-
-backup_file="$backup_dir/backup_$current_datetime.sql"
-
-
-docker exec -i $container_name pg_dumpall -U $db_user > $backup_file
-
-if [ $? -eq 0 ]; then
-    echo "Database backup successful. Backup saved as $backup_file"
-else
-    echo "Database backup failed."
-fi
-```
-The `config.txt` file contains the values of the `POSTGRES_USER` variable. I sourced it into the script so that the variables are only available while the script is running.  
-To enable automatic backups, I have configured a cron service schedule to back up the database daily at 9 AM.
-![Cron scheduling](./readmeimg/crontab.jpg "Cron scheduling")  
-If the backup process is successs, the backup files are saved as SQL file in the `backup_dir`. You can check example of the backup files in [this folder](/backup-database)
-### Restore Database
-We can use backup file to restore database by running `restore.sh` in the Linux terminal.
-```
-#!/bin/bash
-
-source $(realpath ~/backup/config.txt)
-
-db_name=$POSTGRES_DB
-
-db_user=$POSTGRES_USER
-
-CONTAINER_NAME="todo_postgres"
-
-read -p "Enter the path to the backup file: " BACKUP_FILE
-
-if [ ! -f "$BACKUP_FILE" ]; then
-    echo "Backup file does not exist."
-    exit 1
-fi
-
-docker cp $BACKUP_FILE $CONTAINER_NAME:/backup-file.sql
-
-docker exec -it $CONTAINER_NAME bash -c "psql -U $db_user -d $db_name -f /backup-file.sql"
-
-if [ $? -eq 0 ]; then
-    echo "Backup restore completed successfully."
-else
-    echo "Backup restore failed."
-fi
-```
-The `config.txt` file contains the values of the `POSTGRES_USER` and `POSTGRES_DB` variables. I sourced it into the script so that the variables are only available while the script is running.  
-We can input the path of the backup file we want to use to restore the database. If the file is available, it will be copied to the PostgreSQL container, and the psql restore command will be executed.
 ## How to run this app
 1. Clone this repository
 ```

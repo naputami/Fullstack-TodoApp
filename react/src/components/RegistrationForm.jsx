@@ -86,18 +86,18 @@ const RegistrationForm = ({handleRegis, success, message}) => {
                             <label className="label">
                                 <span className="label-text md:text-lg xl:text-xl">Name</span>
                             </label>
-                            <input type="text" placeholder="Input your name" className="input input-bordered" value={name} onChange={({target}) => setName(target.value)} />
+                            <input type="text" placeholder="Input your name" className="input input-bordered" value={name} onChange={({target}) => setName(target.value)} required />
                             <label className="label">
                                 <span className="label-text md:text-lg xl:text-xl">E-mail</span>
                             </label>
-                            <input type="email" placeholder="Input your e-mail" className="input input-bordered" value={email} onChange={({target}) => setEmail(target.value)} />
+                            <input type="email" placeholder="Input your e-mail" className="input input-bordered" value={email} onChange={({target}) => setEmail(target.value)} required />
                             {emaildValidationMsg && (
                             <p className="text-accent text-sm my-1">{emaildValidationMsg}</p>
                             )}
                             <label className="label">
                                 <span className="label-text md:text-lg xl:text-xl">Password</span>
                             </label>
-                            <input type="password" placeholder="Input your password" className="input input-bordered" value={password}  onChange={({target}) => setPassword(target.value)} />
+                            <input type="password" placeholder="Input your password" className="input input-bordered" value={password}  onChange={({target}) => setPassword(target.value)} required />
                             {passwordValidationMsg && (
                             <p className="text-accent text-sm my-1">{passwordValidationMsg}</p>
                             )}
